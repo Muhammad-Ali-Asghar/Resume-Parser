@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Resume Analyzer & Job Matcher</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/resumes">Resumes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/jobs">Jobs</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Resume Analysis</h1>
+            <a href="/resumes" class="btn btn-outline-secondary">Back to List</a>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">Personal Info</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Name:</strong> {{ resume.name or 'Not detected' }}</p>
+                        <p><strong>Email:</strong> {{ resume.email or 'Not detected' }}</p>
+                        <p><strong>Phone:</strong> {{ resume.phone or 'Not detected' }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Uploaded:</strong> {{ resume.uploaded_at }}</p>
+                        <p><strong>Filename:</strong> {{ resume.filename }}</p>
+                    </div>
+                    <div class="resume-score mt-3">
+                        <h4>Resume Score: <span class="badge bg-success">{{ "%.0f"|format(resume.score) }}%</span></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card entity-card">
+                    <div class="card-header bg-success text-white">
+                        <h3 class="mb-0">Skills</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if resume.skills %}
+                            <div>
+                                {% for skill in resume.skills %}
+                                    <span class="badge bg-primary skill-badge">{{ skill }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No skills detected</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card entity-card">
+                    <div class="card-header bg-info text-white">
+                        <h3 class="mb-0">Job Titles</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if resume.job_titles %}
+                            <ul class="list-group list-group-flush">
+                                {% for title in resume.job_titles %}
+                                    <li class="list-group-item">{{ title }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-muted">No job titles detected</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card entity-card">
+                    <div class="card-header bg-warning text-dark">
+                        <h3 class="mb-0">Companies</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if resume.companies %}
+                            <ul class="list-group list-group-flush">
+                                {% for company in resume.companies %}
+                                    <li class="list-group-item">{{ company }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-muted">No companies detected</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card entity-card">
+                    <div class="card-header bg-danger text-white">
+                        <h3 class="mb-0">Projects</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if resume.projects %}
+                            <ul class="list-group list-group-flush">
+                                {% for project in resume.projects %}
+                                    <li class="list-group-item">{{ project }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-muted">No projects detected</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card entity-card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">Education</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if resume.education %}
+                            <ul class="list-group list-group-flush">
+                                {% for edu in resume.education %}
+                                    <li class="list-group-item">{{ edu }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-muted">No education details detected</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card entity-card">
+                    <div class="card-header bg-secondary text-white">
+                        <h3 class="mb-0">Certifications</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if resume.certifications %}
+                            <ul class="list-group list-group-flush">
+                                {% for cert in resume.certifications %}
+                                    <li class="list-group-item">{{ cert }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-muted">No certifications detected</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h3 class="mb-0">Experience</h3>
+            </div>
+            <div class="card-body">
+                {% if resume.experience %}
+                    <ul class="list-group list-group-flush">
+                        {% for exp in resume.experience %}
+                            <li class="list-group-item">{{ exp }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">No experience details detected</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <h2 class="mt-5 mb-3">Job Matches</h2>
+        
+        {% if job_matches %}
+            <div class="row">
+                {% for match in job_matches %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    {% set bg_color = '#28a745' if match.match_score > 0.8 else '#17a2b8' if match.match_score > 0.6 else '#ffc107' if match.match_score > 0.4 else '#dc3545' %}
+                                    <div class="match-score me-3" style="background-color: '{{ bg_color | safe }}'">
+                                        {{ "%.0f"|format(match.match_score * 100) }}%
+                                    </div>
+                                    <div>
+                                        <h5 class="card-title">{{ match.job_title }}</h5>
+                                        <p class="card-text match-details">
+                                            Match Score: {{ "%.0f"|format(match.match_score * 100) }}%
+                                        </p>
+                                        <a href="/job/{{ match.job_id }}" class="btn btn-sm btn-primary">View Job Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                No job matches found for this resume.
+            </div>
+        {% endif %}
+        
+        <div class="mt-4">
+            <a href="/api/resume/{{ resume.id }}" class="btn btn-outline-primary" target="_blank">View JSON Data</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

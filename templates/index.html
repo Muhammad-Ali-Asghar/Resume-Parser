@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analyzer & Job Matcher</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Resume Analyzer & Job Matcher</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/resumes">Resumes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/jobs">Jobs</a>
+                    </li>
+                </ul>
+                <form class="d-flex ms-auto" action="/search">
+                    <input class="form-control me-2" type="search" name="query" placeholder="Search resumes...">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="mb-4 text-center">Resume Analyzer & Job Matcher</h1>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Upload Your Resume</h5>
+                <p class="card-text">Upload your resume to analyze skills and find matching job opportunities.</p>
+                
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <div class="upload-box">
+                        <input type="file" name="resume" id="resume" class="form-control" accept=".pdf,.docx,.doc" required>
+                        <small class="text-muted mt-2 d-block">Supported formats: PDF, DOCX, DOC</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Analyze Resume & Find Jobs</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <h3 class="text-center mb-4">How It Works</h3>
+            
+            <div class="col-md-4 text-center">
+                <div class="feature-icon">📄</div>
+                <h5>1. Upload Resume</h5>
+                <p>Upload your resume in PDF or DOCX format.</p>
+            </div>
+            
+            <div class="col-md-4 text-center">
+                <div class="feature-icon">🔍</div>
+                <h5>2. AI Analysis</h5>
+                <p>Our custom AI model extracts skills and experience.</p>
+            </div>
+            
+            <div class="col-md-4 text-center">
+                <div class="feature-icon">🎯</div>
+                <h5>3. Job Matching</h5>
+                <p>Get matched with suitable job opportunities.</p>
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <h3 class="text-center mb-4">Key Features</h3>
+            
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Custom AI Resume Analysis</h5>
+                        <p class="card-text">Our custom-built AI model extracts key information from your resume including skills, education, and experience.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Intelligent Job Matching</h5>
+                        <p class="card-text">Our job matching engine analyzes your skills and experience to find the most suitable job opportunities.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Skills Gap Analysis</h5>
+                        <p class="card-text">Identify skills you need to develop to qualify for your desired positions.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Career Insights</h5>
+                        <p class="card-text">Get insights into which industries and roles best match your profile.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
